@@ -31,9 +31,9 @@ deploy:
       code: |
         TAG="$(echo "$WERCKER_GIT_COMMIT" | cut -c 1-7)"
         if [[ "$WERCKER_DEPLOYTARGET_NAME" == "prerelease" ]]; then
-          ghr -u fd -r v5n-utils -c $WERCKER_GIT_COMMIT --replace --prerelease "v1.0.0-pre+c.${TAG}" ./dist
+          ghr -u limbo-services -r version -c $WERCKER_GIT_COMMIT --replace --prerelease "v1.0.0-pre+c.${TAG}" ./dist
         else
-          ghr -u fd -r v5n-utils -c $WERCKER_GIT_COMMIT --replace "v1.0.0+c.${TAG}" ./dist
+          ghr -u limbo-services -r version -c $WERCKER_GIT_COMMIT --replace "v1.0.0+c.${TAG}" ./dist
         fi
   - mbrevda/wercker-triggerbuild@0.0.10:
       token: $WRK_TOKEN
