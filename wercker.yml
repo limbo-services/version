@@ -29,11 +29,13 @@ deploy:
   - script:
       name: "Push release"
       code: |
-        TAG="$(echo "$WERCKER_GIT_COMMIT" | cut -c 1-7)"
+        install-creds
         if [[ "$WERCKER_DEPLOYTARGET_NAME" == "prerelease" ]]; then
-          ghr -u limbo-services -r version -c $WERCKER_GIT_COMMIT --replace --prerelease "v1.0.0-pre+c.${TAG}" ./dist
+          VERSION="$(v5n store bump v5n rc)"
+          ghr -u limbo-services -r version -c $WERCKER_GIT_COMMIT --replace --prerelease "v$VERSION" ./dist
         else
-          ghr -u limbo-services -r version -c $WERCKER_GIT_COMMIT --replace "v1.0.0+c.${TAG}" ./dist
+          VERSION="$(v5n store bump v5n final+patch)"
+          ghr -u limbo-services -r version -c $WERCKER_GIT_COMMIT --replace "v$VERSION" ./dist
         fi
   - mbrevda/wercker-triggerbuild@0.0.10:
       token: $WRK_TOKEN
